@@ -7,14 +7,18 @@ server {
 	ssl_certificate /etc/nginx/ssl/inception.crt;
 	ssl_certificate_key /etc/nginx/ssl/inception.key;
 
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
+	root /var/www/wordpress;
+	index index.php index.html index.htm;
 
-	server_name .dcandan.42.fr;
+	server_name dcandan.42.fr;
 
 	location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
 		try_files $uri $uri/ =404;
+	}
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass wordpress:9000;
 	}
 }

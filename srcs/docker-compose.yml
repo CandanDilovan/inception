@@ -1,0 +1,56 @@
+version: '3'
+services:
+  mariadb:
+    container_name: mariadb
+    networks:
+      - inception 
+    build:
+      context: ./
+      dockerfile: ./requirements/mariadb/Dockerfile
+    env_file: 
+      ./.env
+    restart: always
+    expose:
+      - "3306"
+  nginx:
+    container_name: nginx
+    volumes:
+      - wordpression:/var/www/wordpress
+    networks:
+      - inception 
+    build:
+      context: ./
+      dockerfile: ./requirements/nginx/Dockerfile
+    env_file: 
+      ./.env
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    restart: always
+  wordpress:
+    container_name: wordpress
+    volumes:
+      - wordpression:/var/www/wordpress
+    networks:
+      - inception 
+    build:
+      context: ./
+      dockerfile: ./requirements/wordpress/Dockerfile
+    env_file:
+      .env
+    depends_on: 
+      - mariadb
+    restart: always
+    expose:
+      - "9000"
+networks:
+  inception:
+    driver: bridge
+volumes:
+  wordpression:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/dilovan/data'
