@@ -2,6 +2,8 @@ version: '3'
 services:
   mariadb:
     container_name: mariadb
+    volumes:
+      - mariadbz:/var/lib/mysql
     networks:
       - inception 
     build:
@@ -53,4 +55,10 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/dilovan/data'
+      device: '/home/dcandan/data/wordpress'
+  mariadbz:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/dcandan/data/mariadb'
