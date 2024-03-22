@@ -8,6 +8,7 @@ sed -i "s/votre_mdp_de_bdd/$SQL_PASSWORD/g" wp-config-sample.php
 sed -i "s/localhost/mariadb:3306/g" wp-config-sample.php
 mv wp-config-sample.php wp-config.php
 
+sleep 10
 
 wp core install --allow-root \
                 --url=dcandan.42.fr \

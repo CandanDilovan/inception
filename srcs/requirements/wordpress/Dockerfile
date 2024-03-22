@@ -21,4 +21,4 @@ COPY /requirements/wordpress/tools/wp_config.sh .
 
 RUN chmod +x wp_config.sh
 
-CMD ./wp_config.sh && /usr/sbin/php-fpm7.4 -F
+CMD if test -e /var/www/wordpress/wp-config-sample.php; then ./wp_config.sh && /usr/sbin/php-fpm7.4 -F; else /usr/sbin/php-fpm7.4 -F; fi
